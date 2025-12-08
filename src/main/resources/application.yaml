@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: InvEntropy
+
+
+datasource:
+  # 数据库驱动类名
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  # 附加参数：关闭SSL、开启预处理语句、允许公钥检索（解决本地连接报错）
+  url: jdbc:mysql:///test?useSSL=false&useServerPrepStmts=true&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+  # 数据库登录用户名
+  username: ${MYSQL_USER}
+  # 数据库登录密码
+  password: ${MYSQL_PASSWORD}
+
+
+
+mybatis:
+  configuration:
+    # MyBatis日志输出：打印SQL到控制台（开发环境调试用）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #驼峰命名映射开关
+    map-underscore-to-camel-case: true
+  # Mapper XML文件扫描路径
+  mapper-locations: classpath:mapper/*.xml
+
+
+aliyun:
+  oss:
+    endpoint: "https://oss-cn-hangzhou.aliyuncs.com"
+    bucketName: "inventropy"
+    region: "cn-hangzhou"
