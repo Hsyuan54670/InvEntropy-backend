@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hsyuan.inventropy.mapper.ProjectMapper">
+
+    <select id="countIngProjects" resultType="java.lang.Integer">
+        select count(*) from tb_project_info where  status=3  and applicant_id = #{id}
+    </select>
+    <select id="countFinishedProjects" resultType="java.lang.Integer">
+        select count(*) from tb_project_info where  status=4  and applicant_id = #{id}
+    </select>
+</mapper>

@@ -16,4 +16,5 @@ public class UserInformation {
     private String college;
     private Integer passedProjects;
     private Integer finishedProjects;
+    private Integer ingProjects;
 }

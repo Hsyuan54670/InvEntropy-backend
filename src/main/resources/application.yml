@@ -1,17 +1,15 @@
 spring:
   application:
     name: InvEntropy
-
-
-datasource:
-  # 数据库驱动类名
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  # 附加参数：关闭SSL、开启预处理语句、允许公钥检索（解决本地连接报错）
-  url: jdbc:mysql:///test?useSSL=false&useServerPrepStmts=true&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-  # 数据库登录用户名
-  username: ${MYSQL_USER}
-  # 数据库登录密码
-  password: ${MYSQL_PASSWORD}
+  datasource:
+    # 数据库驱动类名
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 附加参数：关闭SSL、开启预处理语句、允许公钥检索（解决本地连接报错）
+    url: jdbc:mysql:///inventropy?useSSL=false&useServerPrepStmts=true&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    # 数据库登录用户名
+    username: ${MYSQL_USER}
+    # 数据库登录密码
+    password: ${MYSQL_PASSWORD}
 
 
 
