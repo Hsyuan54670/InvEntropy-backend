@@ -22,10 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**") // 所有路径都被拦截
                 .excludePathPatterns( // 排除以下路径
-                        "/login", // 登录路径
-                        "/register", // 注册路径
-                        "/error", // 错误路径
-                        "/static/**" // 静态资源路径`
+                        "/login"  // 登录路径
+                        , "/project/submit"
+                        , "/upload"
                 );
     }
 }

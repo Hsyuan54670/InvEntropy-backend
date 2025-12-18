@@ -27,15 +27,14 @@ public class AliyunOSSOperator {
         String bucketName = aliyunOSSProperties.getBucketName();
         String region = aliyunOSSProperties.getRegion();
 
-        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+        // 从环境变量中获取访问凭证。
         EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
 
-        // 填写Object完整路径，例如202406/1.png。Object完整路径中不能包含Bucket名称。
+        // 填写Object完整路径，
         //获取当前系统日期的字符串,格式为 yyyy/MM
         String dir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
-        //生成一个新的不重复的文件名
-        String newFileName = UUID.randomUUID().toString().replace("-", "") + originalFilename.substring(originalFilename.lastIndexOf("."));
-        String objectName = dir + "/" + newFileName;
+        //保留原文件名称
+        String objectName = dir + "/" + originalFilename;
 
         // 创建OSSClient实例。
         ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();

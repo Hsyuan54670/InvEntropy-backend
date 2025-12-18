@@ -5,10 +5,7 @@ import com.hsyuan.inventropy.pojo.Result;
 import com.hsyuan.inventropy.pojo.UserDTO;
 import com.hsyuan.inventropy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -24,4 +21,5 @@ public class LoginController {
         }
         return Result.fail("用户名或密码错误");
     }
+
 }

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/upload")
 public class UpLoadController {
 
     @Autowired
     private AliyunOSSOperator aliyunOSSOperator;
 
-    @PostMapping("/submit")
+    @PostMapping
     public Result uploadContent(MultipartFile  file) throws Exception {
         String url = aliyunOSSOperator.upload(file.getBytes(), file.getOriginalFilename());
         return Result.Ok(url);
