@@ -17,4 +17,11 @@ public class ProjectLog {
     private String reason;
     private LocalDateTime createTime;
     private Integer approverId;
+    public ProjectLog(Integer projectId, Integer oldStatus, Integer newStatus, String reason, Integer approverId){
+        this.projectId = projectId;
+        this.oldStatus = oldStatus;
+        this.newStatus = newStatus;
+        this.reason = reason;
+        this.approverId = approverId;
+    }
 }

@@ -1,6 +1,7 @@
 package com.hsyuan.inventropy.mapper;
 
 import com.hsyuan.inventropy.entity.Project;
+import com.hsyuan.inventropy.pojo.UnPassedProjectDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,4 +21,12 @@ public interface ProjectMapper {
     List<Project> getUserFinishedProjects(Integer id);
     List<Project> getUnpassedProjects(Integer id);
     void insert(Project project);
+
+    List<UnPassedProjectDTO> getUnpassedProjectsWithLog(Integer id);
+
+    List<Project> getProjectsApprovalList();
+
+    void updateProjectStatus(Integer id, int newStatus);
+
+    void updateReason(Integer id, String reason);
 }

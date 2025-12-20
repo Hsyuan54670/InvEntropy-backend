@@ -7,7 +7,7 @@
         update tb_user_account set password=#{password} where id=#{id}
     </update>
     <select id="selectByUserNameAndPasswordAndUserType" resultType="com.hsyuan.inventropy.pojo.UserDTO">
-        select id,username,password,user_type from tb_user_account where username=#{username} and password=#{password} and user_type=#{userType}
+        select id,username,password,user_type as userType from tb_user_account where username=#{username} and password=#{password} and user_type=#{userType}
     </select>
     <select id="getUserInfo" resultType="com.hsyuan.inventropy.entity.User">
         select * from tb_user_info where id=#{id}

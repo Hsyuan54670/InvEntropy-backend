@@ -10,6 +10,12 @@
                #{content},#{startTime},#{deadline},#{updateTime},
                #{status},#{reason})
     </insert>
+    <update id="updateProjectStatus">
+        update tb_project_info set status = #{newStatus} where id = #{id}
+    </update>
+    <update id="updateReason">
+        update  tb_project_info set reason = #{reason} where id=#{id}
+    </update>
 
     <select id="countIngProjects" resultType="java.lang.Integer">
         select count(*) from tb_project_info where  status=3  and applicant_id = #{id}
@@ -30,7 +36,25 @@
     <select id="getUnpassedProjects" resultType="com.hsyuan.inventropy.entity.Project">
         select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
                content,start_time as startTime,deadline,update_time as updateTime,
-               status,reason from tb_project_info where  (status=0 or status=1)  and applicant_id = #{id}
+               status,reason from tb_project_info where  status in (0, 1)  and applicant_id = #{id}
+    </select>
+    <select id="getUnpassedProjectsWithLog" resultType="com.hsyuan.inventropy.pojo.UnPassedProjectDTO">
+        select
+            p.project_name as projectName,
+            u.name as approver,
+            pl.reason,
+            pl.create_time as createTime,
+            p.status as status
+        from tb_project_info p
+        inner join tb_project_log pl on p.id = pl.project_id
+        left join tb_user_info u on pl.approver_id = u.id
+        where p.status in (0, 1) and p.applicant_id = #{id}
+        order by pl.create_time desc
+    </select>
+    <select id="getProjectsApprovalList" resultType="com.hsyuan.inventropy.entity.Project">
+        select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
+               content,start_time as startTime,deadline,update_time as updateTime,
+               status,reason from tb_project_info where  status = 0;
     </select>
 
 </mapper>

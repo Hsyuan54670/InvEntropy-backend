@@ -35,7 +35,6 @@ public class UserController {
     public Result home() {
         return Result.Ok("欢迎来到主页");
     }
-
     @PostMapping("/project/submit")
     public Result submitProject(@RequestBody Project project) {
         return userService.submitProject(project);
@@ -55,4 +54,5 @@ public class UserController {
         Integer id = (Integer) ThreadLocalUtils.get();
         return userService.getUserUnpassedProjects(id);
     }
+
 }

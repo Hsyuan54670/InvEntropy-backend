@@ -3,6 +3,7 @@ package com.hsyuan.inventropy.service.impl;
 import com.hsyuan.inventropy.entity.Project;
 import com.hsyuan.inventropy.entity.ProjectLog;
 import com.hsyuan.inventropy.entity.User;
+import com.hsyuan.inventropy.mapper.ProjectLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectMapper;
 import com.hsyuan.inventropy.mapper.UserMapper;
 import com.hsyuan.inventropy.pojo.*;
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private ProjectMapper projectMapper;
+    @Autowired
+    private ProjectLogMapper projectLogMapper;
 
     private ThreadLocalUtils threadLocal;
     @Override
@@ -76,10 +79,14 @@ public class UserServiceImpl implements UserService {
         return Result.Ok(finishedProjects);
     }
 
-    // todo 获取未通过项目根据日志和 项目返回数据。
+    // 获取未通过项目,根据日志和项目返回数据。
     @Override
     public Result getUserUnpassedProjects(Integer id) {
-        return null;
+        List<UnPassedProjectDTO> unPassedProjects=projectMapper.getUnpassedProjectsWithLog(id);
+        for (int i=0;i<unPassedProjects.size();i++) {
+          unPassedProjects.get(i).setId(i);
+        }
+        return Result.Ok(unPassedProjects);
     }
 
 
@@ -89,12 +96,12 @@ public class UserServiceImpl implements UserService {
         if (e != null) {
             //生成令牌
             Map<String, Object> claims = new HashMap<>();
+            claims.put("id", e.getId());
             claims.put("username", e.getUsername());
-            claims.put("userType",e.getUserType());
+            claims.put("userType", e.getUserType());
             String jwt = JwtUtils.generateToken(claims);
-            return  new LoginInfo(e.getUserType(), jwt);
+            return new LoginInfo(e.getUserType(), jwt);
         }
         return null;
     }
-
 }

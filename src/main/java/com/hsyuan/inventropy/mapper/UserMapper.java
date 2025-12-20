@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
 
 
-    public UserDTO selectByUserNameAndPasswordAndUserType(UserDTO user);
+    UserDTO selectByUserNameAndPasswordAndUserType(UserDTO user);
 
     User getUserInfo(Integer id);
 
