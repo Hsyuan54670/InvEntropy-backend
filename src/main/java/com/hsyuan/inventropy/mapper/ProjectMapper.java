@@ -1,6 +1,7 @@
 package com.hsyuan.inventropy.mapper;
 
 import com.hsyuan.inventropy.entity.Project;
+import com.hsyuan.inventropy.pojo.FundsApplyDTO;
 import com.hsyuan.inventropy.pojo.UnPassedProjectDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -29,4 +30,8 @@ public interface ProjectMapper {
     void updateProjectStatus(Integer id, int newStatus);
 
     void updateReason(Integer id, String reason);
+
+    Project getProjectById(Integer projectId);
+
+
 }

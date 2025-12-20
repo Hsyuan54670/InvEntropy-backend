@@ -8,4 +8,6 @@ public interface AdminService {
     Result approveProject(Integer id);
 
     Result notApproveProject(Integer id, String reason);
+
+    Result getFundsApprovalList();
 }

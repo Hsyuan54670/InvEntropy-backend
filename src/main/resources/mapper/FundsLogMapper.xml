@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hsyuan.inventropy.mapper.FundsLogMapper">
+
+    <insert id="insertFundsApply">
+        insert into tb_funds_log(project_id,applicant_id,applied_funds,reason)
+        values (#{projectId},#{applicantId},#{appliedFunds},#{reason})
+    </insert>
+    <select id="getFundsApprovalList" resultType="com.hsyuan.inventropy.pojo.FundsApplyDTO">
+        select p.remaining_funds as remainingFunds,u.name as applicant,f.applied_funds as appliedFunds,f.reason as reason,f.project_id as projectId,f.applied_time as appliedTime
+        from tb_funds_log f
+            left join tb_project_info p on f.project_id = p.id
+            left join tb_user_info u on f.applicant_id = u.id
+    </select>
+</mapper>

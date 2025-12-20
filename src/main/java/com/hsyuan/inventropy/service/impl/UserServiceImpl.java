@@ -3,6 +3,7 @@ package com.hsyuan.inventropy.service.impl;
 import com.hsyuan.inventropy.entity.Project;
 import com.hsyuan.inventropy.entity.ProjectLog;
 import com.hsyuan.inventropy.entity.User;
+import com.hsyuan.inventropy.mapper.FundsLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectMapper;
 import com.hsyuan.inventropy.mapper.UserMapper;
@@ -12,6 +13,7 @@ import com.hsyuan.inventropy.utils.JwtUtils;
 import com.hsyuan.inventropy.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService {
     private ProjectMapper projectMapper;
     @Autowired
     private ProjectLogMapper projectLogMapper;
+    @Autowired
+    private FundsLogMapper fundsLogMapper;
 
     private ThreadLocalUtils threadLocal;
     @Override
@@ -87,6 +91,16 @@ public class UserServiceImpl implements UserService {
           unPassedProjects.get(i).setId(i);
         }
         return Result.Ok(unPassedProjects);
+    }
+
+    @Transactional
+    @Override
+    public Result applyFunds(FundsApplyDTO fundsApply) {
+        fundsApply.setApplicant(userMapper.getUserInfo((Integer)ThreadLocalUtils.get()).getName());
+        fundsApply.setRemainingFunds(projectMapper.getProjectById(fundsApply.getProjectId()).getRemainingFunds());
+        fundsApply.setApplicantId((Integer)ThreadLocalUtils.get());
+        fundsLogMapper.insertFundsApply(fundsApply);
+        return Result.Ok();
     }
 
 

@@ -56,5 +56,10 @@
                content,start_time as startTime,deadline,update_time as updateTime,
                status,reason from tb_project_info where  status = 0;
     </select>
+    <select id="getProjectById" resultType="com.hsyuan.inventropy.entity.Project">
+        select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
+               content,start_time as startTime,deadline,update_time as updateTime,
+               status,reason from tb_project_info where  id= #{id}
+    </select>
 
 </mapper>

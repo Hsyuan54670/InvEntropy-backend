@@ -16,4 +16,6 @@ public interface UserMapper {
     User getUserInfo(Integer id);
 
     boolean changePassword(UserDTO user);
+
+
 }

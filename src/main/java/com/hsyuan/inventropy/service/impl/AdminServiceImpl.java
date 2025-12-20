@@ -2,8 +2,10 @@ package com.hsyuan.inventropy.service.impl;
 
 import com.hsyuan.inventropy.entity.Project;
 import com.hsyuan.inventropy.entity.ProjectLog;
+import com.hsyuan.inventropy.mapper.FundsLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectMapper;
+import com.hsyuan.inventropy.pojo.FundsApplyDTO;
 import com.hsyuan.inventropy.pojo.Result;
 import com.hsyuan.inventropy.service.AdminService;
 import com.hsyuan.inventropy.utils.ThreadLocalUtils;
@@ -19,6 +21,8 @@ public class AdminServiceImpl implements AdminService {
     private ProjectMapper projectMapper;
     @Autowired
     private ProjectLogMapper projectLogMapper;
+    @Autowired
+    private FundsLogMapper fundsLogMapper;
     @Override
     public Result getProjectsApprovalList() {
         List<Project> res = projectMapper.getProjectsApprovalList();
@@ -39,6 +43,12 @@ public class AdminServiceImpl implements AdminService {
         projectMapper.updateReason(id, reason);
         projectLogMapper.insert(new ProjectLog(id,0,1,reason, (Integer) ThreadLocalUtils.get()));
         return Result.Ok();
+    }
+
+    @Override
+    public Result getFundsApprovalList() {
+        List<FundsApplyDTO> res = fundsLogMapper.getFundsApprovalList();
+        return Result.Ok(res);
     }
 
 }

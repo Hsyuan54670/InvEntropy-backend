@@ -1,6 +1,7 @@
 package com.hsyuan.inventropy.controller;
 
 import com.hsyuan.inventropy.entity.Project;
+import com.hsyuan.inventropy.pojo.FundsApplyDTO;
 import com.hsyuan.inventropy.pojo.Result;
 import com.hsyuan.inventropy.pojo.UserDTO;
 import com.hsyuan.inventropy.service.UserService;
@@ -54,5 +55,10 @@ public class UserController {
         Integer id = (Integer) ThreadLocalUtils.get();
         return userService.getUserUnpassedProjects(id);
     }
+    @PutMapping("/user/commitPayFunds")
+    public Result applyFunds(@RequestBody FundsApplyDTO fundsApply) {
+        return userService.applyFunds(fundsApply);
+    }
+
 
 }

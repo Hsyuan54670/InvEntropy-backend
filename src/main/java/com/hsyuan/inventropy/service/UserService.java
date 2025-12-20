@@ -2,10 +2,7 @@ package com.hsyuan.inventropy.service;
 
 
 import com.hsyuan.inventropy.entity.Project;
-import com.hsyuan.inventropy.pojo.LoginInfo;
-import com.hsyuan.inventropy.pojo.Result;
-import com.hsyuan.inventropy.pojo.UserDTO;
-import com.hsyuan.inventropy.pojo.UserInformation;
+import com.hsyuan.inventropy.pojo.*;
 import org.apache.ibatis.annotations.Select;
 
 public interface UserService {
@@ -23,4 +20,6 @@ public interface UserService {
     Result getUserFinishedProjects(Integer id);
 
     Result getUserUnpassedProjects(Integer id);
+
+    Result applyFunds(FundsApplyDTO fundsApply);
 }

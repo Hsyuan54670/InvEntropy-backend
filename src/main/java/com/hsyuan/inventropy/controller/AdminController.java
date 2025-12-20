@@ -23,4 +23,8 @@ public class AdminController {
     public Result notApprovalProject(@PathVariable Integer id,@RequestParam String reason){
         return adminService.notApproveProject(id,reason);
     }
+    @GetMapping("/admin/fundsApprovalList")
+    public Result getFundsApprovalList(){
+        return adminService.getFundsApprovalList();
+    }
 }
