@@ -5,6 +5,7 @@ import com.hsyuan.inventropy.pojo.FundsApplyDTO;
 import com.hsyuan.inventropy.pojo.UnPassedProjectDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -34,4 +35,13 @@ public interface ProjectMapper {
     Project getProjectById(Integer projectId);
 
 
+    void updateProjectRemainingFunds(Integer projectId, Double remainingFunds);
+
+    List<Project> getAllPassed();
+
+    void deleteProjectById(Integer id);
+
+    Integer getProjectStatusById(Integer id);
+
+    void updateDeadline(Integer id, LocalDateTime newDeadline);
 }

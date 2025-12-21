@@ -14,7 +14,7 @@ public class Project {
     private String projectName;
     private String projectType;
     private String applicant;
-    private Long applicantId;
+    private Integer applicantId;
     private Double funds;
     private Double remainingFunds;
     private String content;

@@ -10,7 +10,7 @@ import java.util.Map;
 //Jwt工具类
 public class JwtUtils {
     // 密钥
-    private static final String SECRET_KEY_STRING = "Secret-Key-For-JWT-2025-Web-Tlias-Study-054670";  //长度要求:32字节以上
+    private static final String SECRET_KEY_STRING = "Secret-Key-For-JWT-2025-Web-InvEntropy-Project-054670";  //长度要求:32字节以上
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());  // 生成HS256密钥
     private static final long EXPIRATION_TIME=3600 * 1000 * 12 ;//过期时间
 

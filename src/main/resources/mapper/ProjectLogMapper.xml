@@ -6,4 +6,8 @@
     <insert id="insert">
         insert into tb_project_log(project_id,old_status,new_status,reason,create_time,approver_id) values(#{projectId},#{oldStatus},#{newStatus},#{reason},#{createTime},#{approverId})
     </insert>
+    <select id="getAll" resultType="com.hsyuan.inventropy.entity.ProjectLog">
+        select id,project_id as projectId,old_status as oldStatus,new_status as newStatus,reason,create_time as createTime,approver_id as approverId
+        from tb_project_log
+    </select>
 </mapper>

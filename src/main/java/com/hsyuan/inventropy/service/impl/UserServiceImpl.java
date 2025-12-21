@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
         LocalDateTime now = LocalDateTime.now();
         project.setStartTime(now);
         project.setUpdateTime(now);
+        project.setApplicantId((Integer)ThreadLocalUtils.get());
         project.setStatus(0);
         project.setRemainingFunds(project.getFunds());
         projectMapper.insert(project);

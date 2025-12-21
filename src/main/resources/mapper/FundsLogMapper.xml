@@ -8,10 +8,22 @@
         insert into tb_funds_log(project_id,applicant_id,applied_funds,reason)
         values (#{projectId},#{applicantId},#{appliedFunds},#{reason})
     </insert>
+    <update id="addMarkedById">
+        update tb_funds_log set comment = #{comment}, approver_id = #{approverId},status =#{ status} where id = #{id}
+    </update>
     <select id="getFundsApprovalList" resultType="com.hsyuan.inventropy.pojo.FundsApplyDTO">
-        select p.remaining_funds as remainingFunds,u.name as applicant,f.applied_funds as appliedFunds,f.reason as reason,f.project_id as projectId,f.applied_time as appliedTime
+        select f.id ,p.remaining_funds as remainingFunds,u.name as applicant,f.applied_funds as appliedFunds,f.reason as reason,f.project_id as projectId,f.applied_time as appliedTime
         from tb_funds_log f
             left join tb_project_info p on f.project_id = p.id
             left join tb_user_info u on f.applicant_id = u.id
+        where f.approver_id is null and f.status = 0
+    </select>
+    <select id="getFundsLogById" resultType="com.hsyuan.inventropy.entity.FundsLog">
+        select id,project_id as projectId,applicant_id as applicantId,applied_funds as appliedFunds,reason,comment,approver_id as approverId,applied_time as appliedTime ,update_time as updateTime,status
+            from tb_funds_log where id = #{id}
+    </select>
+    <select id="getAll" resultType="com.hsyuan.inventropy.entity.FundsLog">
+        select id,project_id as projectId,applicant_id as applicantId,applied_funds as appliedFunds,reason,comment,approver_id as approverId,applied_time as appliedTime ,update_time as updateTime,status
+            from tb_funds_log
     </select>
 </mapper>

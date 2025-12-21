@@ -16,6 +16,15 @@
     <update id="updateReason">
         update  tb_project_info set reason = #{reason} where id=#{id}
     </update>
+    <update id="updateProjectRemainingFunds">
+        update tb_project_info set remaining_funds = #{remainingFunds} where id = #{projectId}
+    </update>
+    <update id="updateDeadline">
+        update tb_project_info set deadline = #{newDeadline} where id = #{id}
+    </update>
+    <delete id="deleteProjectById">
+        delete from tb_project_info where id = #{id}
+    </delete>
 
     <select id="countIngProjects" resultType="java.lang.Integer">
         select count(*) from tb_project_info where  status=3  and applicant_id = #{id}
@@ -54,12 +63,22 @@
     <select id="getProjectsApprovalList" resultType="com.hsyuan.inventropy.entity.Project">
         select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
                content,start_time as startTime,deadline,update_time as updateTime,
-               status,reason from tb_project_info where  status = 0;
+               status,reason from tb_project_info where  status = 0
     </select>
     <select id="getProjectById" resultType="com.hsyuan.inventropy.entity.Project">
         select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
                content,start_time as startTime,deadline,update_time as updateTime,
                status,reason from tb_project_info where  id= #{id}
+    </select>
+    <select id="getAllPassed" resultType="com.hsyuan.inventropy.entity.Project">
+        select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
+               content,start_time as startTime,deadline,update_time as updateTime,
+               status,reason from tb_project_info
+        where  status in (2,3,4,5)
+        order by startTime desc
+    </select>
+    <select id="getProjectStatusById" resultType="java.lang.Integer">
+        select status from tb_project_info where id = #{id}
     </select>
 
 </mapper>
