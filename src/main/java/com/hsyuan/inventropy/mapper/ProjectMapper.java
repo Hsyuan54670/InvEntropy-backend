@@ -44,4 +44,14 @@ public interface ProjectMapper {
     Integer getProjectStatusById(Integer id);
 
     void updateDeadline(Integer id, LocalDateTime newDeadline);
+
+    Long countProjectsByStatus(int status);
+
+    Long countProjectsUnpassed();
+
+    Double getTotalFunds();
+
+    Double getTotalRemainingFunds();
+
+    Long countProjects();
 }

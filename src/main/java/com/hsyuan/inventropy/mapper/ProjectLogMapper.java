@@ -10,4 +10,6 @@ public interface ProjectLogMapper {
     void insert(ProjectLog projectLog);
 
     List<ProjectLog> getAll();
+    
+    void deleteByProjectId(Integer projectId);
 }

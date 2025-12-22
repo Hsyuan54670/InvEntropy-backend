@@ -80,5 +80,20 @@
     <select id="getProjectStatusById" resultType="java.lang.Integer">
         select status from tb_project_info where id = #{id}
     </select>
+    <select id="countProjectsByStatus" resultType="java.lang.Long">
+        select count(*) from tb_project_info where status = #{status}
+    </select>
+    <select id="countProjectsUnpassed" resultType="java.lang.Long">
+        select count(*) from tb_project_info where status in (0,1)
+    </select>
+    <select id="getTotalFunds" resultType="java.lang.Double">
+        select sum(funds) from tb_project_info
+    </select>
+    <select id="getTotalRemainingFunds" resultType="java.lang.Double">
+        select sum(remaining_funds) from tb_project_info
+    </select>
+    <select id="countProjects" resultType="java.lang.Long">
+        select count(*) from tb_project_info where status in (2,3,4,5)
+    </select>
 
 </mapper>

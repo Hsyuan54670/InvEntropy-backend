@@ -11,6 +11,9 @@
     <update id="addMarkedById">
         update tb_funds_log set comment = #{comment}, approver_id = #{approverId},status =#{ status} where id = #{id}
     </update>
+    <delete id="deleteByProjectId">
+        delete from tb_funds_log where project_id = #{projectId}
+    </delete>
     <select id="getFundsApprovalList" resultType="com.hsyuan.inventropy.pojo.FundsApplyDTO">
         select f.id ,p.remaining_funds as remainingFunds,u.name as applicant,f.applied_funds as appliedFunds,f.reason as reason,f.project_id as projectId,f.applied_time as appliedTime
         from tb_funds_log f
@@ -25,5 +28,9 @@
     <select id="getAll" resultType="com.hsyuan.inventropy.entity.FundsLog">
         select id,project_id as projectId,applicant_id as applicantId,applied_funds as appliedFunds,reason,comment,approver_id as approverId,applied_time as appliedTime ,update_time as updateTime,status
             from tb_funds_log
+        where approver_id is not null
+    </select>
+    <select id="countFundsUnmarked" resultType="java.lang.Long">
+        select count(*) from tb_funds_log where approver_id is null and status = 0
     </select>
 </mapper>

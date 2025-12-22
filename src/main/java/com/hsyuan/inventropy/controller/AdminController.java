@@ -74,4 +74,17 @@ public class AdminController {
         Integer newStatus = (Integer) params.get("newStatus");
         return adminService.updateDeadline(id, newDeadline, newStatus);
     }
+
+    @GetMapping("/admin/work")
+    public Result getWorkList(){
+        return adminService.getWork();
+    }
+    @GetMapping("/admin/funds")
+    public Result getFundsList(){
+        return adminService.getFunds();
+    }
+    @GetMapping("/admin/kinds")
+    public Result getKindsList(){
+        return adminService.getKinds();
+    }
 }

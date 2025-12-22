@@ -17,4 +17,8 @@ public interface FundsLogMapper {
     void addMarkedById(Integer id, Integer approverId, String comment,Integer status);
 
     List<FundsLog> getAll();
+
+    Long countFundsUnmarked();
+    
+    void deleteByProjectId(Integer projectId);
 }

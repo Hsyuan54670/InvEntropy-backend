@@ -28,4 +28,10 @@ public interface AdminService {
     Result deleteProject(Integer id);
 
     Result updateDeadline(Integer id, LocalDateTime newDeadline, Integer newStatus);
+
+    Result getWork();
+
+    Result getFunds();
+
+    Result getKinds();
 }
