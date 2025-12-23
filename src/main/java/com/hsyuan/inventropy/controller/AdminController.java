@@ -87,4 +87,18 @@ public class AdminController {
     public Result getKindsList(){
         return adminService.getKinds();
     }
+
+    @GetMapping("/admin/accountList")
+    public Result getAccountList(){
+        return adminService.getAccountList();
+    }
+
+    @PostMapping("/admin/addAccount")
+    public Result addAccount(@RequestBody Map<String, Object> params){
+        return adminService.addAccount(params);
+    }
+    @DeleteMapping("/admin/deleteAccount/{id}")
+    public Result deleteAccount(@PathVariable Integer id){
+        return adminService.deleteAccount(id);
+    }
 }

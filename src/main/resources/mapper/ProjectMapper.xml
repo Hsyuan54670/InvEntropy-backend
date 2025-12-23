@@ -95,5 +95,8 @@
     <select id="countProjects" resultType="java.lang.Long">
         select count(*) from tb_project_info where status in (2,3,4,5)
     </select>
+    <select id="getUserProjects" resultType="java.lang.Integer">
+         select id from tb_project_info where applicant_id = #{id}
+    </select>
 
 </mapper>

@@ -12,4 +12,5 @@ public interface ProjectLogMapper {
     List<ProjectLog> getAll();
     
     void deleteByProjectId(Integer projectId);
+
 }

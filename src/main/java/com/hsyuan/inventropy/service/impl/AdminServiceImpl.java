@@ -5,18 +5,25 @@ import com.github.pagehelper.PageHelper;
 import com.hsyuan.inventropy.entity.FundsLog;
 import com.hsyuan.inventropy.entity.Project;
 import com.hsyuan.inventropy.entity.ProjectLog;
+import com.hsyuan.inventropy.entity.User;
 import com.hsyuan.inventropy.mapper.FundsLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectLogMapper;
 import com.hsyuan.inventropy.mapper.ProjectMapper;
+import com.hsyuan.inventropy.mapper.UserMapper;
 import com.hsyuan.inventropy.pojo.*;
 import com.hsyuan.inventropy.service.AdminService;
 import com.hsyuan.inventropy.utils.ThreadLocalUtils;
+import io.jsonwebtoken.security.Password;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
+import static com.hsyuan.inventropy.constants.PersonConstants.INIT_PASSWORD;
+import static com.hsyuan.inventropy.constants.PersonConstants.SCHOOL_NAME;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -26,6 +33,8 @@ public class AdminServiceImpl implements AdminService {
     private ProjectLogMapper projectLogMapper;
     @Autowired
     private FundsLogMapper fundsLogMapper;
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public Result getProjectsApprovalList(Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
@@ -153,6 +162,55 @@ public class AdminServiceImpl implements AdminService {
         Long projectsOf4 = projectMapper.countProjectsByStatus(4);
         Long projectsOf5 = projectMapper.countProjectsByStatus(5);
         return Result.Ok(new ProjectsKindsCount(projects,projectsOf2,projectsOf3,projectsOf4,projectsOf5));
+    }
+
+    @Override
+    public Result getAccountList() {
+        return Result.Ok(userMapper.getAccountForAdmin());
+    }
+
+    @Transactional
+    @Override
+    public Result addAccount(Map<String, Object> params) {
+        String name = (String) params.get("name");
+        String phone = (String) params.get("phone");
+        String college = (String) params.get("college");
+        String gender = (String) params.get("gender");
+        Integer age = Integer.valueOf(params.get("age").toString());
+        String username = SCHOOL_NAME + phone;
+        String password = INIT_PASSWORD;
+        if(userMapper.isExitsByUsername(username)){
+            return Result.fail("该账户已存在");
+        }
+        try {
+            userMapper.insertUserAccount(username, password, "user");
+            Integer id = userMapper.getIdByUsername(username);
+            userMapper.insert(id,name, phone, college, gender, age);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.fail("添加失败");
+        }
+        return Result.Ok();
+    }
+
+    @Transactional
+    @Override
+    public Result deleteAccount(Integer id) {
+
+        try {
+            userMapper.deleteAccount(id);
+            userMapper.deleteUserInfo(id);
+            List<Integer> userProjects = projectMapper.getUserProjects(id);
+            for(Integer projectId:userProjects){
+                projectMapper.deleteProjectById(projectId);
+                projectLogMapper.deleteByProjectId(projectId);
+                fundsLogMapper.deleteByProjectId(projectId);
+            }
+        } catch (Exception e) {
+            return Result.fail("删除失败");
+        }
+        return Result.Ok();
     }
 
 

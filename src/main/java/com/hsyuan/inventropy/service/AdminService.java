@@ -3,6 +3,7 @@ package com.hsyuan.inventropy.service;
 import com.hsyuan.inventropy.pojo.Result;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public interface AdminService {
     Result getProjectsApprovalList(Integer page, Integer pageSize);
@@ -34,4 +35,10 @@ public interface AdminService {
     Result getFunds();
 
     Result getKinds();
+
+    Result getAccountList();
+
+    Result addAccount(Map<String, Object> params);
+
+    Result deleteAccount(Integer id);
 }

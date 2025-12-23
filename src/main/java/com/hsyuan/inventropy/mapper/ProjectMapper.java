@@ -54,4 +54,6 @@ public interface ProjectMapper {
     Double getTotalRemainingFunds();
 
     Long countProjects();
+
+    List<Integer> getUserProjects(Integer id);
 }
