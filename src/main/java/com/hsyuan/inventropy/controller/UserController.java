@@ -60,5 +60,8 @@ public class UserController {
         return userService.applyFunds(fundsApply);
     }
 
-
+    @GetMapping("/project/getTimeLines/{id}")
+    public Result getTimeLines(@PathVariable Integer id) {
+        return userService.getTimeLines(id);
+    }
 }

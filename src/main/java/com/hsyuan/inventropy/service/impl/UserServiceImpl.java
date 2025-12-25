@@ -104,6 +104,11 @@ public class UserServiceImpl implements UserService {
         return Result.Ok();
     }
 
+    @Override
+    public Result getTimeLines(Integer id) {
+        return Result.Ok(projectLogMapper.getByProjectId(id));
+    }
+
 
     @Override
     public LoginInfo LoginInfo(UserDTO user) {

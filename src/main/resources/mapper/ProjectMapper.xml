@@ -40,7 +40,7 @@
     <select id="getUserFinishedProjects" resultType="com.hsyuan.inventropy.entity.Project">
         select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
                content,start_time as startTime,deadline,update_time as updateTime,
-               status,reason from tb_project_info where  (status=4 or status=5 )  and applicant_id = #{id}
+               status,reason from tb_project_info where  status in(4,5)  and applicant_id = #{id}
     </select>
     <select id="getUnpassedProjects" resultType="com.hsyuan.inventropy.entity.Project">
         select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,

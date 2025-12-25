@@ -22,4 +22,6 @@ public interface UserService {
     Result getUserUnpassedProjects(Integer id);
 
     Result applyFunds(FundsApplyDTO fundsApply);
+
+    Result getTimeLines(Integer id);
 }
