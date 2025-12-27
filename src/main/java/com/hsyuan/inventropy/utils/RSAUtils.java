@@ -71,15 +71,7 @@ public class RSAUtils {
             return password;
 
 
-        } catch (javax.crypto.BadPaddingException e) {
-            // RSA解密失败，通常是由于密钥不匹配导致的
-            System.err.println("RSA解密失败 - 可能是由于客户端使用了旧的公钥进行加密: " + e.getMessage());
-            System.err.println("请确保客户端获取最新的公钥进行加密");
-            throw new RuntimeException("解密失败 - 密钥不匹配，请重新获取公钥进行加密", e);
         } catch (Exception e) {
-            // 输出更详细的错误信息帮助调试
-            System.err.println("RSA解密失败，加密数据: " + passwordRSA);
-            System.err.println("当前公钥: " + (keyPair != null ? Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()) : "null"));
             throw new RuntimeException("解密失败: " + e.getMessage(), e);
         }
     }
@@ -109,12 +101,5 @@ public class RSAUtils {
     public static void markRandomUsed(){
         redisTemplate.opsForValue().set("InvEntropy:random:"+random, "1", 5, TimeUnit.MINUTES);
     }
-    
-    // 用于测试和调试的辅助方法
-    public static String getPublicKeyString() {
-        if (keyPair != null) {
-            return Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
-        }
-        return null;
-    }
+
 }
