@@ -75,6 +75,9 @@ public class AdminServiceImpl implements AdminService {
         Integer projectId =fundsLogMapper.getFundsLogById(id).getProjectId();
         Project project = projectMapper.getProjectById(projectId);
         Double remainingFunds = project.getRemainingFunds();
+        if(appliedFunds>remainingFunds){
+            return Result.fail("申请资金超出剩余资金");
+        }
         remainingFunds -= appliedFunds;
         projectMapper.updateProjectRemainingFunds(projectId,remainingFunds);
         return Result.Ok();
@@ -105,6 +108,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result getProjectsList(Integer page, Integer pageSize) {
+        projectMapper.callProcedure();
         PageHelper.startPage(page,pageSize);
         List<Project> res = projectMapper.getAllPassed();
         Page<Project> p=(Page<Project>) res;
@@ -211,6 +215,26 @@ public class AdminServiceImpl implements AdminService {
             return Result.fail("删除失败");
         }
         return Result.Ok();
+    }
+
+    @Override
+    public Result getAllProjectsByCondition(Map<String, Object> params) {
+        projectMapper.callProcedure();
+        String applicant = params.get("applicant").toString();
+        Integer size = Integer.valueOf(params.get("size").toString());
+        Integer page = Integer.valueOf(params.get("page").toString());
+        if(params.get("projectId").toString().isEmpty()&&!params.get("applicant").toString().isEmpty()){
+            PageHelper.startPage(page,size);
+            List<Project> res=projectMapper
+                    .getAllProjectsByConditionOnlyName(params.get("applicant").toString());
+            Page<Project> p=(Page<Project>) res;
+            return Result.Ok(new PageTable<Project>(1,5,p.getTotal(),p.getResult()));
+        }
+        Integer projectId = Integer.valueOf(params.get("projectId").toString());
+        PageHelper.startPage(page,size);
+        List<Project> res = projectMapper.getAllProjectsByCondition(projectId,applicant);
+        Page<Project> p=(Page<Project>) res;
+        return Result.Ok(new PageTable<Project>(page,size,p.getTotal(),p.getResult()));
     }
 
 

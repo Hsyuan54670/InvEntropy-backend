@@ -1,17 +1,11 @@
 package com.hsyuan.inventropy.mapper;
 
 import com.hsyuan.inventropy.entity.Project;
-import com.hsyuan.inventropy.pojo.FundsApplyDTO;
 import com.hsyuan.inventropy.pojo.UnPassedProjectDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.lang.invoke.CallSite;
 import java.time.LocalDateTime;
-import java.util.List;
-
-
-import com.hsyuan.inventropy.entity.Project;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 
 @Mapper
@@ -56,4 +50,10 @@ public interface ProjectMapper {
     Long countProjects();
 
     List<Integer> getUserProjects(Integer id);
+
+    List<Project> getAllProjectsByCondition(Integer projectId, String applicant);
+
+    List<Project> getAllProjectsByConditionOnlyName(String applicant);
+
+    List<Project> callProcedure();
 }

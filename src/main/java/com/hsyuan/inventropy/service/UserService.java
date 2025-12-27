@@ -9,7 +9,6 @@ public interface UserService {
 
     Result getUserInfo(Integer id);
 
-    LoginInfo LoginInfo(UserDTO user);
 
     Result getUserIngProjects(Integer id);
 
@@ -24,4 +23,5 @@ public interface UserService {
     Result applyFunds(FundsApplyDTO fundsApply);
 
     Result getTimeLines(Integer id);
+
 }

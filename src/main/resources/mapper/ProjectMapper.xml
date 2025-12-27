@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hsyuan.inventropy.mapper.ProjectMapper">
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into tb_project_info(project_name,project_type,applicant,applicant_id,funds,remaining_funds,
                content,start_time,deadline,update_time,
                status,reason) values(#{projectName},#{projectType},#{applicant},#{applicantId},#{funds},#{remainingFunds},
@@ -57,7 +57,8 @@
         from tb_project_info p
         inner join tb_project_log pl on p.id = pl.project_id
         left join tb_user_info u on pl.approver_id = u.id
-        where p.status in (0, 1) and p.applicant_id = #{id}
+        where (p.status = 1 and p.applicant_id = #{id} and pl.approver_id != #{id})
+        or (p.status = 0 and p.applicant_id = #{id} and pl.approver_id = #{id})
         order by pl.create_time desc
     </select>
     <select id="getProjectsApprovalList" resultType="com.hsyuan.inventropy.entity.Project">
@@ -75,7 +76,7 @@
                content,start_time as startTime,deadline,update_time as updateTime,
                status,reason from tb_project_info
         where  status in (2,3,4,5)
-        order by startTime desc
+        order by startTime
     </select>
     <select id="getProjectStatusById" resultType="java.lang.Integer">
         select status from tb_project_info where id = #{id}
@@ -97,6 +98,25 @@
     </select>
     <select id="getUserProjects" resultType="java.lang.Integer">
          select id from tb_project_info where applicant_id = #{id}
+    </select>
+    <select id="getAllProjectsByCondition" resultType="com.hsyuan.inventropy.entity.Project">
+        select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
+               content,start_time as startTime,deadline,update_time as updateTime,
+               status,reason from tb_project_info
+        where id=#{projectId} and applicant like concat('%',#{applicant},'%')
+            and  status in (2,3,4,5)
+        order by startTime
+    </select>
+    <select id="getAllProjectsByConditionOnlyName" resultType="com.hsyuan.inventropy.entity.Project">
+        select id,project_name as projectName,project_type as projectType,applicant,applicant_id as applicantId,funds,remaining_funds as remainingFunds,
+               content,start_time as startTime,deadline,update_time as updateTime,
+               status,reason from tb_project_info
+        where applicant like concat('%',#{applicant},'%')
+          and  status in (2,3,4,5)
+        order by startTime
+    </select>
+    <select id="callProcedure" resultType="com.hsyuan.inventropy.entity.Project">
+        call get_project_info_with_status_update()
     </select>
 
 </mapper>

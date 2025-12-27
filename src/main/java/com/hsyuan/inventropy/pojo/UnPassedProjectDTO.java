@@ -15,5 +15,5 @@ public class UnPassedProjectDTO {
     private String approver;
     private String reason;
     private LocalDateTime createTime;
-    private String status;
+    private Integer status;
 }

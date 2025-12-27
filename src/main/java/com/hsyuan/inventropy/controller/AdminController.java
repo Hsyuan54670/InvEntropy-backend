@@ -101,4 +101,9 @@ public class AdminController {
     public Result deleteAccount(@PathVariable Integer id){
         return adminService.deleteAccount(id);
     }
+
+    @GetMapping("/project/getAllProjectsByCondition")
+    public Result getAllProjectsByCondition(@RequestParam Map<String, Object> params){
+        return adminService.getAllProjectsByCondition(params);
+    }
 }

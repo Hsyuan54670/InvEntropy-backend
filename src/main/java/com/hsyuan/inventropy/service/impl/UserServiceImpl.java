@@ -10,11 +10,13 @@ import com.hsyuan.inventropy.mapper.UserMapper;
 import com.hsyuan.inventropy.pojo.*;
 import com.hsyuan.inventropy.service.UserService;
 import com.hsyuan.inventropy.utils.JwtUtils;
+import com.hsyuan.inventropy.utils.RSAUtils;
 import com.hsyuan.inventropy.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,7 @@ public class UserServiceImpl implements UserService {
         return Result.Ok();
     }
 
+    @Transactional
     @Override
     public Result submitProject(Project project) {
         LocalDateTime now = LocalDateTime.now();
@@ -74,7 +77,9 @@ public class UserServiceImpl implements UserService {
         project.setApplicantId((Integer)ThreadLocalUtils.get());
         project.setStatus(0);
         project.setRemainingFunds(project.getFunds());
+        project.setReason("暂未审批");
         projectMapper.insert(project);
+        projectLogMapper.insert(new ProjectLog(project.getId().intValue(),-1,0,"创建项目", (Integer) ThreadLocalUtils.get()));
         return Result.Ok();
     }
 
@@ -110,18 +115,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public LoginInfo LoginInfo(UserDTO user) {
-        UserDTO e = userMapper.selectByUserNameAndPasswordAndUserType(user);
-        if (e != null) {
-            //生成令牌
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("id", e.getId());
-            claims.put("username", e.getUsername());
-            claims.put("userType", e.getUserType());
-            String jwt = JwtUtils.generateToken(claims);
-            return new LoginInfo(e.getUserType(), jwt);
-        }
-        return null;
-    }
+
+
+
 }

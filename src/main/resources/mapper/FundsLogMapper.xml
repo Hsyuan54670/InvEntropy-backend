@@ -29,6 +29,7 @@
         select id,project_id as projectId,applicant_id as applicantId,applied_funds as appliedFunds,reason,comment,approver_id as approverId,applied_time as appliedTime ,update_time as updateTime,status
             from tb_funds_log
         where approver_id is not null
+        order by projectId
     </select>
     <select id="countFundsUnmarked" resultType="java.lang.Long">
         select count(*) from tb_funds_log where approver_id is null and status = 0

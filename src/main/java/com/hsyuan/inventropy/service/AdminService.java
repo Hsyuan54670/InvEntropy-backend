@@ -41,4 +41,6 @@ public interface AdminService {
     Result addAccount(Map<String, Object> params);
 
     Result deleteAccount(Integer id);
+
+    Result getAllProjectsByCondition(Map<String, Object> params);
 }
