@@ -39,7 +39,8 @@ public class AdminController {
         return adminService.approveFunds(id, comment, appliedFunds);
     }
     @PutMapping("/admin/notApprovalFunds/{id}")
-    public Result notApprovalFunds(@PathVariable Integer id,@RequestParam String comment){
+    public Result notApprovalFunds(@PathVariable Integer id,@RequestBody Map<String, Object> requestData){
+        String comment =requestData.get("comment").toString();
         return adminService.notApproveFunds(id, comment);
     }
     @GetMapping("/admin/projectsLogList")
@@ -106,4 +107,5 @@ public class AdminController {
     public Result getAllProjectsByCondition(@RequestParam Map<String, Object> params){
         return adminService.getAllProjectsByCondition(params);
     }
+
 }

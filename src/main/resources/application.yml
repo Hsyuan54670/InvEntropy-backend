@@ -12,9 +12,9 @@ spring:
     password: ${MYSQL_PASSWORD}
   data:
     redis:
-      host: ${REDIS_IP}
+      host: 192.168.100.129
       port: 6379
-      password: ${REDIS_PASSWORD}
+      password: Lqy147258369
       lettuce:
         pool:
           max-active: 10
