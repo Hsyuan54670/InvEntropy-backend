@@ -15,6 +15,17 @@ InvEntropy是一个基于Java技术栈开发的高校教师科研项目管理系
 - **构建工具**: Maven 3.8.6
 - **开发语言**: Java 21
 
+### 相关仓库
+<!-- 贴仓库克隆命令 + 依赖安装命令 -->
+1. [部署代码仓库(Docker)](https://github.com/Hsyuan54670/InvEntropy-run.git)
+```bash
+git clone https://github.com/Hsyuan54670/InvEntropy-run.git
+```
+2. [前端代码仓库(Java)](https://github.com/Hsyuan54670/InvEntropy-frontend.git)
+```bash
+git clone https://github.com/Hsyuan54670/InvEntropy-frontend.git
+```
+
 ## 核心功能
 
 ### 1. 用户管理模块
