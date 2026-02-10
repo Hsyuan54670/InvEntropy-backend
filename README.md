@@ -116,12 +116,13 @@ src/main/
 
 ## 接口文档
 
-系统提供RESTful API接口，主要包括：
+系统提供RESTful API接口总计33个，主要包括：
 
 - 用户认证接口：`/login`, `/login/auth/publicKey`
 - 项目管理接口：`/project/*`
 - 经费管理接口：`/funds/*`
-- 统计分析接口：`/statistics/*`
+- 教师服务接口：`/user/*`
+- 管理服务接口：`/admin/*`
 
 ## 学习与收获
 
