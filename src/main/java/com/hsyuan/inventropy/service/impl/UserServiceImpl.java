@@ -13,6 +13,8 @@ import com.hsyuan.inventropy.utils.JwtUtils;
 import com.hsyuan.inventropy.utils.RSAUtils;
 import com.hsyuan.inventropy.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "userIngProjects", key = "#id")
     public Result getUserIngProjects(Integer id) {
         List<Project> ingProjects = projectMapper.getUserIngProjects(id);
         return Result.Ok(ingProjects);
@@ -70,6 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = {"userIngProjects", "userUnpassedProjects"}, allEntries = true)
     public Result submitProject(Project project) {
         LocalDateTime now = LocalDateTime.now();
         project.setStartTime(now);
@@ -84,6 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "userFinishedProjects", key = "#id")
     public Result getUserFinishedProjects(Integer id) {
         List<Project> finishedProjects = projectMapper.getUserFinishedProjects(id);
         return Result.Ok(finishedProjects);
@@ -91,6 +96,7 @@ public class UserServiceImpl implements UserService {
 
     // 获取未通过项目,根据日志和项目返回数据。
     @Override
+    @Cacheable(value = "userUnpassedProjects", key = "#id")
     public Result getUserUnpassedProjects(Integer id) {
         List<UnPassedProjectDTO> unPassedProjects=projectMapper.getUnpassedProjectsWithLog(id);
         for (int i=0;i<unPassedProjects.size();i++) {
@@ -101,6 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    @CacheEvict(value = {"userIngProjects"}, allEntries = true)
     public Result applyFunds(FundsApplyDTO fundsApply) {
         fundsApply.setApplicant(userMapper.getUserInfo((Integer)ThreadLocalUtils.get()).getName());
         fundsApply.setRemainingFunds(projectMapper.getProjectById(fundsApply.getProjectId()).getRemainingFunds());

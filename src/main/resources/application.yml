@@ -39,3 +39,28 @@ aliyun:
     endpoint: "https://oss-cn-hangzhou.aliyuncs.com"
     bucketName: "inventropy"
     region: "cn-hangzhou"
+
+
+# SpringDoc API文档自动化配置（适配你的Spring Boot 3.x项目）
+springdoc:
+  # 自动扫描你的Controller层包路径，替换为你项目Controller的实际包名
+  packages-to-scan: com.hsyuan.inventropy.controller
+  # Swagger UI在线文档页面配置
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html  # 自定义UI访问路径，方便你记忆
+    tags-sorter: alpha  # 接口按模块字母排序
+    operations-sorter: method  # 接口按请求方法排序
+    # 显示 API 的年代久远版本
+    show-extensions: true
+    # 启用 Try it out 功能
+    try-it-out-enabled: true
+  # 核心API规范接口（对接你Python自动化脚本的关键地址）
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  # group-configs 分组配置
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.hsyuan.inventropy.controller

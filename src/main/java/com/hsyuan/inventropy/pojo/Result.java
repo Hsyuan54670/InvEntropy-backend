@@ -1,13 +1,20 @@
 package com.hsyuan.inventropy.pojo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
+@Schema(description = "统一返回结果")
 public class Result {
-    //code,msg,data
+    @Schema(description = "状态码: 200-成功, 400-失败", example = "200")
     private Integer code;
+
+    @Schema(description = "返回消息",example = "success")
     private String msg;
+
+    @Schema(description = "返回数据")
     private Object data;
+
     public static Result Ok(Object data){
         Result result = new Result();
         result.setCode(200);

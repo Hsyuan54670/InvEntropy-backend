@@ -19,6 +19,19 @@ public class TokenInterceptor implements HandlerInterceptor {
     // 预处理回调方法,在Controller方法调用之前调用。true表示继续流程, false表示流程中断
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        // Swagger文档白名单地址
+        String requestUri = request.getRequestURI();
+        if (requestUri.contains("/v3/api-docs")
+                || requestUri.contains("/swagger-ui")
+                || requestUri.contains("/swagger-ui.html")
+                || requestUri.contains("/doc.html")) {
+            // 放行Swagger相关请求，不做鉴权校验
+            return true;
+        }
+
+
+
         String token = request.getHeader("token");
         if (token == null||token.isEmpty()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token不能为空");

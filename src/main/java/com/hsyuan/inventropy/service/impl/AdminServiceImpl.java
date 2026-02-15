@@ -15,6 +15,8 @@ import com.hsyuan.inventropy.service.AdminService;
 import com.hsyuan.inventropy.utils.ThreadLocalUtils;
 import io.jsonwebtoken.security.Password;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private UserMapper userMapper;
     @Override
+    @Cacheable(value = "projectsApprovalList", key = "#page + '_' + #pageSize")
     public Result getProjectsApprovalList(Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
         List<Project> res = projectMapper.getProjectsApprovalList();
@@ -44,6 +47,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @CacheEvict(value = {"projectsApprovalList", "projectsList", "projectsLogList", "fundsApprovalList"}, allEntries = true)
     public Result approveProject(Integer id) {
         projectMapper.updateProjectStatus(id, 3);
         projectLogMapper.insert(new ProjectLog(id,0,3,"审批通过", (Integer) ThreadLocalUtils.get()));
@@ -52,6 +56,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
+    @CacheEvict(value = {"projectsApprovalList", "projectsList", "projectsLogList"}, allEntries = true)
     public Result notApproveProject(Integer id, String reason) {
         projectMapper.updateProjectStatus(id, 1);
         projectMapper.updateReason(id, reason);
@@ -60,6 +65,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Cacheable(value = "fundsApprovalList", key = "#page + '_' + #pageSize")
     public Result getFundsApprovalList(Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
         List<FundsApplyDTO> res = fundsLogMapper.getFundsApprovalList();
@@ -69,6 +75,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
+    @CacheEvict(value = {"fundsApprovalList", "fundsLogList", "projectsList"}, allEntries = true)
     public Result approveFunds(Integer id, String comment, Double appliedFunds) {
         Integer approverId = (Integer) ThreadLocalUtils.get();
         fundsLogMapper.addMarkedById(id,approverId,comment,2);
@@ -84,6 +91,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @CacheEvict(value = {"fundsApprovalList", "fundsLogList"}, allEntries = true)
     public Result notApproveFunds(Integer id, String comment) {
         Integer approverId = (Integer) ThreadLocalUtils.get();
         fundsLogMapper.addMarkedById(id,approverId,comment,1);
@@ -91,6 +99,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Cacheable(value = "projectsLogList", key = "#page + '_' + #pageSize")
     public Result getProjectsLogList(Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
         List<ProjectLog> res = projectLogMapper.getAll();
@@ -99,6 +108,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Cacheable(value = "fundsLogList", key = "#page + '_' + #pageSize")
     public Result getFundsLogList(Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
         List<FundsLog> res = fundsLogMapper.getAll();
@@ -107,6 +117,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Cacheable(value = "projectsList", key = "#page + '_' + #pageSize")
     public Result getProjectsList(Integer page, Integer pageSize) {
         projectMapper.callProcedure();
         PageHelper.startPage(page,pageSize);
@@ -116,6 +127,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @CacheEvict(value = {"projectsList", "projectsLogList", "projectsApprovalList"}, allEntries = true)
     public Result updateProjectStatus(Integer id, Integer newStatus) {
         projectMapper.updateProjectStatus(id, newStatus);
         Integer oldStatus = projectMapper.getProjectStatusById(id);
@@ -125,6 +137,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
+    @CacheEvict(value = {"projectsList", "projectsLogList", "fundsLogList", "projectsApprovalList", "fundsApprovalList"}, allEntries = true)
     public Result deleteProject(Integer id) {
         // 先删除与项目关联的资金日志记录
         fundsLogMapper.deleteByProjectId(id);
@@ -137,6 +150,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
+    @CacheEvict(value = {"projectsList", "projectsApprovalList"}, allEntries = true)
     public Result updateDeadline(Integer id, LocalDateTime newDeadline, Integer newStatus) {
         projectMapper.updateProjectStatus(id, newStatus);
         projectMapper.updateDeadline(id, newDeadline);
