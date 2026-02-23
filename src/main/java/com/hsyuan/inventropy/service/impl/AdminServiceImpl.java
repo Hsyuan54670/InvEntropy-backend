@@ -19,6 +19,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -206,6 +207,7 @@ public class AdminServiceImpl implements AdminService {
             userMapper.insert(id,name, phone, college, gender, age);
 
         }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
             return Result.fail("添加失败");
         }
